@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { MarkNotificationAsReadDTO } from "../dtos/input/notification.input";
 import { prisma } from "../config/db";
 import { BaseStatus } from "../dtos/output/baseStatus.dto";
-import { GetAllNotificationsDTO } from "../dtos/output/notfication.output";
+import { GetAllNotificationsDTO, GetUserNotificationsOutputDTO } from "../dtos/output/notfication.output";
 
 
 export const markNotificationAsRead = async (dto: MarkNotificationAsReadDTO): Promise<BaseStatus> => {
@@ -60,33 +60,40 @@ export const getAllNotifications = async (req: Request, res: Response): Promise<
 };
 
 
-export const getNotificationsByUserId = async (userId: number) => {
+export const getUserNotificationDetails = async (userId: number): Promise<GetUserNotificationsOutputDTO> => {
     try {
         const notifications = await prisma.user_notifications.findMany({
             where: { user_id: userId },
             include: {
                 notifications: true,
             },
-            orderBy: {
-                created_at: "desc",
-            }
         });
 
-        return notifications.map(n => ({
-            notificationId: n.notification_id,
-            message: n.notifications?.message,
-            type: n.notifications?.type,
-            created_at: n.notifications?.created_at,
-            is_read: n.is_read,
+        const formatted = notifications.map((item) => ({
+            id: item.notifications?.id!,
+            message: item.notifications?.message!,
+            type: item.notifications?.type!,
+            is_read: item.is_read,
+            read_at: item.read_at,
+            status: item.status!,
+            created_at: item.created_at!,
         }));
-    } catch (err) {
-        console.error(err);
+
+        return {
+            status: true,
+            message: "Fetched notifications for the user.",
+            notificationsList: formatted,
+        };
+    } catch (error) {
+        console.error("Error fetching notifications for user:", error);
         return {
             status: false,
-            message: "Something went wrong while fetching notification!",
+            message: "Failed to fetch user notifications.",
+            notificationsList: [],
         };
     }
 };
+
 
 
 export const createNotification = async (userId: number, message: string) => {

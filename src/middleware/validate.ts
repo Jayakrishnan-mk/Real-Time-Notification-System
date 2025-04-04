@@ -4,13 +4,17 @@ import { Request, Response, NextFunction } from "express";
 import { ZodSchema } from "zod";
 
 export const validate =
-    (schema: ZodSchema) => (req: Request, res: Response, next: NextFunction) => {
-        const result = schema.safeParse(req.body);
-        if (!result.success) {
-            return res.status(400).json({ error: result.error.format() });
-        }
-        next();
-    };
+    (schema: ZodSchema<any>, source: "body" | "query" | "params" = "body") =>
+        (req: Request, res: Response, next: NextFunction) => {
+            try {
+                // Use dynamic source (body/query/params)
+                schema.parse(req[source]);
+                next();
+            } catch (error) {
+                console.error("❌ Zod validation error:", error);
+                return res.status(400).json({ error });
+            }
+        };
 
 
 export const validateDTO = (dtoClass: any) => {

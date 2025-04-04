@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { getAllNotifications, createNotification, getNotificationsByUserId, markNotificationAsRead } from "../services/notificationService";
-import { MarkNotificationAsReadDTO } from "../dtos/input/notification.input";
+import { getAllNotifications, createNotification, markNotificationAsRead, getUserNotificationDetails } from "../services/notificationService";
+import { GetUserNotificationsDTO, GetUserNotificationsDTOType, MarkNotificationAsReadDTO } from "../dtos/input/notification.input";
 
 export const markNotificationReadController = async (req: Request, res: Response) => {
     const dto: MarkNotificationAsReadDTO = req.body;
@@ -15,20 +15,22 @@ export const getNotifications = async (req: Request, res: Response) => {
     res.json(data);
 };
 
-export const getNotificationsForUser = async (req: Request, res: Response) => {
-    const userId = parseInt(req.params.userId);
-
-    if (isNaN(userId)) {
-        return res.status(400).json({ error: "Invalid user ID" });
-    }
-
+// controllers/notificationController.ts
+export const getUserNotifications = async (req: Request, res: Response) => {
     try {
-        const notifications = await getNotificationsByUserId(userId);
-        res.json(notifications);
-    } catch (err: any) {
-        res.status(500).json({ error: "Failed to fetch notifications" });
+        const { userId } = GetUserNotificationsDTO.parse(req.query);
+
+        const data = await getUserNotificationDetails(Number(userId));
+        res.json(data);
+    } catch (err) {
+        console.error("Controller error:", err);
+        res.status(500).json({
+            status: false,
+            message: "Internal Server Error",
+        });
     }
 };
+
 
 export const sendNotification = async (req: Request, res: Response) => {
     try {
