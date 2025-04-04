@@ -1,4 +1,6 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsArray, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { BaseStatus } from "./baseStatus.dto";
+import { notifications } from "@prisma/client";
 
 export class CreateNotificationDTO {
     @IsNotEmpty()
@@ -8,4 +10,9 @@ export class CreateNotificationDTO {
     @IsNotEmpty()
     @IsString()
     message!: string;
+}
+
+export class GetAllNotificationsDTO extends BaseStatus {
+    @IsArray()
+    notificationsList!: notifications[];
 }
