@@ -1,13 +1,13 @@
 import express from "express";
-import { createNotification } from "../services/notificationService";
 import { validate } from "../middleware/validate";
-import { CreateNotificationDTO } from "../dtos/user.dto";
-import { getNotifications, getNotificationsForUser } from "../controllers/notifications";
+import { getNotifications, getUserNotifications, markNotificationReadController, sendNotification } from "../controllers/notifications";
+import { CreateNotificationDTO, GetUserNotificationsDTO } from "../dtos/input/notification.input";
 
 const router = express.Router();
 
 router.get("/", getNotifications);
-router.get("/:userId", getNotificationsForUser);
-router.post("/", validate(CreateNotificationDTO), createNotification);
+router.get("/user", validate(GetUserNotificationsDTO, "query"), getUserNotifications);
+router.post("/", validate(CreateNotificationDTO), sendNotification);
+router.patch("/mark-read", markNotificationReadController);
 
 export default router;
