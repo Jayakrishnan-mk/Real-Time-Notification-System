@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { getAllNotifications, createNotification, markNotificationAsRead, getUserNotificationDetails } from "../services/notificationService";
-import { GetUserNotificationsDTO, GetUserNotificationsDTOType, MarkNotificationAsReadDTO } from "../dtos/input/notification.input";
+import { getAllNotifications, markNotificationAsRead, getUserNotificationDetails } from "../services/notificationService";
+import { GetUserNotificationsDTO, MarkNotificationAsReadDTO } from "../dtos/input/notification.input";
+import { addNotificationJob } from "@/services/notificationQueue.service";
 
 export const markNotificationReadController = async (req: Request, res: Response) => {
     const dto: MarkNotificationAsReadDTO = req.body;
@@ -15,7 +16,6 @@ export const getNotifications = async (req: Request, res: Response) => {
     res.json(data);
 };
 
-// controllers/notificationController.ts
 export const getUserNotifications = async (req: Request, res: Response) => {
     try {
         const { userId } = GetUserNotificationsDTO.parse(req.query);
@@ -35,8 +35,12 @@ export const getUserNotifications = async (req: Request, res: Response) => {
 export const sendNotification = async (req: Request, res: Response) => {
     try {
         const { userId, message } = req.body;
-        const response = await createNotification(userId, message);
-        res.status(201).json(response);
+
+        await addNotificationJob({ userId, message });
+
+        res.status(200).json({
+            message: "✅ Notification job queued successfully",
+        });
     } catch (error: any) {
         res.status(400).json({ error: error.message });
     }

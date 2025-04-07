@@ -1,5 +1,5 @@
 import express from "express";
-import { signup, login } from "../controllers/auth";
+import { signup, login } from "../controllers/authController";
 import { validate } from "../middleware/validate";
 import { LoginDTO, SignupDTO } from "../dtos/input/auth.input";
 

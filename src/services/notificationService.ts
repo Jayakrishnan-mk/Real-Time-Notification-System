@@ -112,6 +112,7 @@ export const createNotification = async (userId: number, message: string) => {
         });
 
         return {
+            status: true,
             message: `Notification sent to user ${userId}: ${message}`,
             notification,
         }
