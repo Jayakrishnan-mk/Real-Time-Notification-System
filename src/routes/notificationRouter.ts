@@ -1,6 +1,6 @@
 import express from "express";
 import { validate } from "../middleware/validate";
-import { getNotifications, getUserNotifications, markNotificationReadController, sendNotification } from "../controllers/notifications";
+import { getNotifications, getUserNotifications, markNotificationReadController, sendNotification } from "../controllers/notificationController";
 import { CreateNotificationDTO, GetUserNotificationsDTO } from "../dtos/input/notification.input";
 
 const router = express.Router();
