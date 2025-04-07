@@ -1,6 +1,8 @@
 
 import 'module-alias/register';
 import express, { Request, Response } from 'express';
+import http from 'http';
+import { initWebSocket } from './utils/websocket';
 import dotenv from 'dotenv';
 import userRoutes from './routes/userRouter';
 import notificationRoutes from './routes/notificationRouter';
@@ -9,6 +11,10 @@ import authRoutes from "./routes/authRouter";
 dotenv.config();
 
 const app = express();
+const server = http.createServer(app);
+
+initWebSocket(server); // 👈 WebSocket init here
+
 const port = process.env.PORT || 3000; // Use .env PORT if exists, fallback to 3000
 
 // Middleware to parse incoming JSON data
@@ -24,6 +30,6 @@ app.get('/', (req: Request, res: Response) => {
     res.send('Real-Time Notification System Running!');
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });

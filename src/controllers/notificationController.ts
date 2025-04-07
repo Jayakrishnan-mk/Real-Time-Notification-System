@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { getAllNotifications, markNotificationAsRead, getUserNotificationDetails } from "../services/notificationService";
 import { GetUserNotificationsDTO, MarkNotificationAsReadDTO } from "../dtos/input/notification.input";
 import { addNotificationJob } from "@/services/notificationQueue.service";
+import { prisma } from "@/config/db";
 
 export const markNotificationReadController = async (req: Request, res: Response) => {
     const dto: MarkNotificationAsReadDTO = req.body;
@@ -36,6 +37,16 @@ export const sendNotification = async (req: Request, res: Response) => {
     try {
         const { userId, message } = req.body;
 
+        // ✅ Check if user exists
+        const userExists = await prisma.users.findUnique({
+            where: { id: userId },
+        });
+
+        if (!userExists) {
+            return res.status(404).json({ success: false, message: `User with id ${userId} not found` });
+        }
+
+        // notification queue........BullMQ...........
         await addNotificationJob({ userId, message });
 
         res.status(200).json({
