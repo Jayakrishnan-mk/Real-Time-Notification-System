@@ -39,6 +39,7 @@ export const sendNotification = async (req: Request, res: Response) => {
         await addNotificationJob({ userId, message });
 
         res.status(200).json({
+            status: true,
             message: "✅ Notification job queued successfully",
         });
     } catch (error: any) {
