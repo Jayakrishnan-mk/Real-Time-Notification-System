@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { MarkNotificationAsReadDTO } from "../dtos/input/notification.input";
-import { prisma } from "../config/db";
+import { prisma } from "@/config/db";
 import { BaseStatus } from "../dtos/output/baseStatus.dto";
 import { GetAllNotificationsDTO, GetUserNotificationsOutputDTO } from "../dtos/output/notfication.output";
 

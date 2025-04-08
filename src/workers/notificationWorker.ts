@@ -1,34 +1,52 @@
-import { Worker } from 'bullmq';
-import redisConnection from '@/utils/redisClient';
-import { createNotification } from '@/services/notificationService';
-import { NotificationJobData } from '@/types/notificationJob.type';
+import { Worker } from "bullmq";
+import redisConnection from "@/utils/redisClient";
+import { createNotification } from "@/services/notificationService";
+import { NotificationJobData } from "@/types/notificationJob.type";
+import { log, logError } from "@/utils/logger";
+import { createClient } from 'redis';
 
-console.log("✅ Connected to Redis");
+const redisPub = createClient();
 
-// 👷 Worker to process notification jobs
-const notificationWorker = new Worker<NotificationJobData>(
-    'notificationQueue',
-    async (job) => {
-        console.log(`🔧 Processing job: ${job.id} ${job.name}`);
-        console.log("📨 Data:", job.data);
+const run = async () => {
+    await redisPub.connect();
+    log("✅ Connected to Redis");
 
-        const { userId, message } = job.data;
+    // 👷 Worker to process notification jobs
+    const notificationWorker = new Worker<NotificationJobData>(
+        "notificationQueue",
+        async (job) => {
+            log(`🔧 Processing job: ${job.id} ${job.name}`);
+            log("📨 Data:", job.data);
 
-        try {
-            const result = await createNotification(userId, message);
-            // console.log("✅ Notification sent:", result.id);
-            if ('notification' in result && result.notification) {
-                console.log("✅ Notification sent:", result.notification.id);
-            } else {
-                console.error("❌ Notification creation failed:", result.message);
+            const { userId, message } = job.data;
+
+            try {
+                const result = await createNotification(userId, message);
+
+                if ("notification" in result && result.notification) {
+                    log("✅ Notification sent:", result.notification.id);
+
+                    // 👇 Publish to Redis so WebSocket server picks it up
+                    await redisPub.publish('notification-channel', JSON.stringify({
+                        userId,
+                        message,
+                    }));
+
+                    log(`📢 Published message to Redis for user ${userId}`);
+                } else {
+                    logError("❌ Notification creation failed:", result.message);
+                }
+
+            } catch (err) {
+                logError("🔥 Error processing job:", err);
             }
-
-        } catch (err) {
-            console.error("❌ Error processing job:", err);
+        },
+        {
+            connection: redisConnection,
         }
-    },
-    {
-        connection: redisConnection,
-    }
-);
-console.log("👷 Worker initialized and waiting for jobs...");
+    );
+
+    log("👷 Worker initialized and waiting for jobs...");
+};
+
+run().catch((err) => logError("🚨 Failed to start worker", err));
