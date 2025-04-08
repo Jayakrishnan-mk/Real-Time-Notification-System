@@ -39,7 +39,7 @@ export const markNotificationAsRead = async (dto: MarkNotificationAsReadDTO): Pr
         };
     }
 };
-
+ 
 
 export const getAllNotifications = async (req: Request, res: Response): Promise<GetAllNotificationsDTO> => {
     try {

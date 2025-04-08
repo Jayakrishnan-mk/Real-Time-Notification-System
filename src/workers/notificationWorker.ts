@@ -1,3 +1,5 @@
+import 'module-alias/register';
+
 import { Worker } from "bullmq";
 import redisConnection from "@/utils/redisClient";
 import { createNotification } from "@/services/notificationService";
