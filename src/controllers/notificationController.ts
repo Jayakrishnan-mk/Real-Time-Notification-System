@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import { getAllNotifications, markNotificationAsRead, getUserNotificationDetails } from "../services/notificationService";
+import { getAllNotifications, markNotificationAsRead, getUserNotificationDetails, getUnreadNotificationCount } from "../services/notificationService";
 import { GetUserNotificationsDTO, MarkNotificationAsReadDTO } from "../dtos/input/notification.input";
 import { addNotificationJob } from "@/services/notificationQueue.service";
 import { prisma } from "@/config/db";
+import { JwtPayload } from "jsonwebtoken";
 
 export const markNotificationReadController = async (req: Request, res: Response) => {
     const dto: MarkNotificationAsReadDTO = req.body;
@@ -10,6 +11,28 @@ export const markNotificationReadController = async (req: Request, res: Response
     const result = await markNotificationAsRead(dto);
 
     res.status(200).json(result);
+};
+
+
+export const unreadCountController = async (req: Request & { user?: JwtPayload | string }, res: Response) => {
+    try {
+        const userId = typeof req.user === "object" && "id" in req.user ? req.user.id : null;
+
+        if (!userId) {
+            return res.status(401).json({ status: false, message: "Unauthorized" });
+        }
+
+        const unreadCount = await getUnreadNotificationCount(userId);
+
+        return res.status(200).json({
+            status: true,
+            message: "unread count fetched successfully.",
+            data: { unreadCount },
+        });
+    } catch (error) {
+        console.error("Error in unreadCountController:", error);
+        return res.status(500).json({ status: "error", message: "Internal server error" });
+    }
 };
 
 export const getNotifications = async (req: Request, res: Response) => {

@@ -39,7 +39,22 @@ export const markNotificationAsRead = async (dto: MarkNotificationAsReadDTO): Pr
         };
     }
 };
- 
+
+export const getUnreadNotificationCount = async (userId: string) => {
+    try {
+        const count = await prisma.user_notifications.count({
+            where: {
+                user_id: Number(userId),
+                is_read: false,
+            },
+        });
+
+        return count;
+    } catch (error) {
+        console.error("Error in getUnreadNotificationCount:", error);
+        throw error;
+    }
+};
 
 export const getAllNotifications = async (req: Request, res: Response): Promise<GetAllNotificationsDTO> => {
     try {
