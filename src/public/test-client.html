@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Socket.IO Test</title>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+
+<body>
+    <h2>Socket.IO Client Test</h2>
+    <script>
+        const socket = io("http://localhost:3000", {
+            query: {
+                userId: "4" //  test userId
+            }
+        });
+
+        socket.on("connect", () => {
+            console.log("✅ Connected to server");
+        });
+
+        socket.on("notification", (data) => {
+            console.log("🔔 Notification received:", data);
+        });
+    </script>
+</body>
+
+</html>
+
+<!-- http://localhost:3000/test-client.html -->
+
+<!-- 
+✅ Browser client (Socket.io)
+✅ Express backend
+✅ Redis pub/sub
+✅ Worker queue system
+✅ Database notification creation
+
+Here’s the chain:
+Browser will connect with user ID.
+sent a notification from Postman.
+Worker process it, saved to DB, pushed to Redis.
+Redis subscriber relayed to Socket.io.
+Client received it instantly. 
+-->

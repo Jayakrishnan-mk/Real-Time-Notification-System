@@ -13,12 +13,15 @@ import { ExpressAdapter } from '@bull-board/express';
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 import { notificationQueue } from './queues/notificationQueue';
 import { createBullBoard } from '@bull-board/api';
+import path from 'path';
 
 dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
 
+// Serving static files from src/public
+app.use(express.static(path.join(__dirname, "public")));
 
 const serverAdapter = new ExpressAdapter();
 serverAdapter.setBasePath('/admin/queues');

@@ -15,7 +15,7 @@ export const notificationQueue = new Queue<NotificationJobData>(
             type: "exponential", // exponential delay between retries
             delay: 3000,         // starts with 3 seconds
         },
-        removeOnComplete: true,
+        removeOnComplete: false, // 👈 keeps completed jobs
         removeOnFail: false,
     },
 });
