@@ -1,7 +1,7 @@
-
-
 import { notificationQueue } from "@/queues/notificationQueue";
 import { NotificationJobData } from "@/types/notificationJob.type";
+
+// Function to enqueue notification jobs
 
 export async function addNotificationJob(data: NotificationJobData) {
     try {

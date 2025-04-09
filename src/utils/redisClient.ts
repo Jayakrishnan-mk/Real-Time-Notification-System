@@ -1,5 +1,6 @@
 
 // centralized Redis connection file for both Queue and Worker to use.
+// Central Redis client shared across app
 
 import { Redis } from "ioredis";
 
