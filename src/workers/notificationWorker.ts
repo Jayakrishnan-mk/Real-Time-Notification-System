@@ -7,6 +7,8 @@ import { NotificationJobData } from "@/types/notificationJob.type";
 import { log, logError } from "@/utils/logger";
 import { createClient } from 'redis';
 
+// Processes jobs + publishes to Redis for WebSocket
+
 const redisPub = createClient();
 
 const run = async () => {

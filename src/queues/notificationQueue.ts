@@ -1,10 +1,9 @@
-// queues/notificationQueue.ts
-
 import { Queue } from "bullmq";
 import redisClient from "../utils/redisClient";
 import { NotificationJobData } from "@/types/notificationJob.type";
 
-// export const notificationQueue = new Queue("notification-queue", {
+// Queue definition, retry logic, backoff, Redis config
+
 export const notificationQueue = new Queue<NotificationJobData>(
     'notificationQueue', {
     connection: redisClient,
@@ -16,7 +15,7 @@ export const notificationQueue = new Queue<NotificationJobData>(
             type: "exponential", // exponential delay between retries
             delay: 3000,         // starts with 3 seconds
         },
-        removeOnComplete: true,
+        removeOnComplete: false, // 👈 keeps completed jobs
         removeOnFail: false,
     },
 });

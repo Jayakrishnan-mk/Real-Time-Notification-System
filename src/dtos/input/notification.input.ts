@@ -10,6 +10,10 @@ export class MarkNotificationAsReadDTO {
     notification_id!: number;
 }
 
+export const DeleteNotificationDTO = z.object({
+    id: z.number(),
+});
+
 
 export const CreateNotificationDTO = z.object({
     userId: z.number(),
