@@ -17,8 +17,11 @@ export const DeleteNotificationDTO = z.object({
 
 export const CreateNotificationDTO = z.object({
     userId: z.number(),
+    title: z.string().min(1, "Title cannot be empty"),
     message: z.string().min(1, "Message cannot be empty"),
+    type: z.enum(["push", "email", "sms"]).default("push"),
 });
+
 
 
 export const GetUserNotificationsDTO = z.object({

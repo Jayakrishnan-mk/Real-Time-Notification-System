@@ -8,15 +8,20 @@
 
 <body>
     <h2>Socket.IO Client Test</h2>
-    <script>
+    <script> // dummy token. just for test purpose.........
+        const token = "eyJhbGcidgilUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNzQ0MzgwMDc4LCJleHAiOjE3NDQ1NTI4Nzh9.U90BMJ5cMAVDaD1mXnOo7113AAAVvAZxg3n47BW4aBU";
         const socket = io("http://localhost:3000", {
-            query: {
-                userId: "4" //  test userId
+            auth: {
+                token: token
             }
         });
 
         socket.on("connect", () => {
             console.log("✅ Connected to server");
+        });
+
+        socket.on("connect_error", (err) => {
+            console.log("❌ Connection error:", err.message);
         });
 
         socket.on("notification", (data) => {
