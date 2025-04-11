@@ -22,10 +22,10 @@ const run = async () => {
             log(`🔧 Processing job: ${job.id} ${job.name}`);
             log("📨 Data:", job.data);
 
-            const { userId, message } = job.data;
+            const { userId, title, message, type } = job.data;
 
             try {
-                const result = await createNotification(userId, message);
+                const result = await createNotification(userId, title, message, type);
 
                 if ("notification" in result && result.notification) {
                     log("✅ Notification sent:", result.notification.id);
@@ -33,7 +33,9 @@ const run = async () => {
                     // 👇 Publish to Redis so WebSocket server picks it up
                     await redisPub.publish('notification-channel', JSON.stringify({
                         userId,
+                        title,
                         message,
+                        type,
                     }));
 
                     log(`📢 Published message to Redis for user ${userId}`);

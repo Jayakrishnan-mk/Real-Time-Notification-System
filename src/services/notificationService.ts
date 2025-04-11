@@ -159,11 +159,17 @@ export const getUserNotificationDetails = async (userId: number): Promise<GetUse
 
 
 
-export const createNotification = async (userId: number, message: string) => {
+export const createNotification = async (
+    userId: number,
+    title: string,
+    message: string,
+    type: "push" | "email" | "sms"
+) => {
     try {
         const notification = await prisma.notifications.create({
             data: {
-                type: "push", // or 'email', 'sms' – for now let's default it to 'push'
+                title,
+                type, // push | email | sms
                 message,
                 user_notifications: {
                     create: {
@@ -176,7 +182,7 @@ export const createNotification = async (userId: number, message: string) => {
 
         return {
             status: true,
-            message: `Notification sent to user ${userId}: ${message}`,
+            message: `Notification sent to user ${userId}: ${title} - ${message}`,
             notification,
         }
     } catch (err) {

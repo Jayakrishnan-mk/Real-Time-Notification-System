@@ -84,7 +84,7 @@ export const getUserNotifications = async (req: Request, res: Response) => {
 
 export const sendNotification = async (req: Request, res: Response) => {
     try {
-        const { userId, message } = req.body;
+        const { userId, title, message, type } = req.body;
 
         // ✅ Check if user exists
         const userExists = await prisma.users.findUnique({
@@ -96,7 +96,7 @@ export const sendNotification = async (req: Request, res: Response) => {
         }
 
         // notification queue........BullMQ...........
-        await addNotificationJob({ userId, message });
+        await addNotificationJob({ userId, title, message, type });
 
         res.status(200).json({
             status: true,
