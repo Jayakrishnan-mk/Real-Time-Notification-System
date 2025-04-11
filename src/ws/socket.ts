@@ -1,5 +1,6 @@
 import { Server as SocketIOServer, Socket } from "socket.io";
 import { Server } from "http";
+import { socketAuthMiddleware } from "@/middleware/socketAuth";
 
 let io: SocketIOServer;
 const userSocketMap = new Map<number, Set<string>>(); // userId -> Set of socket.id
@@ -11,10 +12,13 @@ export const initializeSocket = (server: Server) => {
         },
     });
 
+    // Before connection listener
+    io.use(socketAuthMiddleware);
+
     io.on("connection", (socket: Socket) => {
         console.log("🔌 New socket connected:", socket.id);
 
-        const { userId } = socket.handshake.query;
+        const userId = socket.data.userId;
 
         if (!userId || isNaN(Number(userId))) {
             console.log("❌ Invalid userId. Disconnecting...");
