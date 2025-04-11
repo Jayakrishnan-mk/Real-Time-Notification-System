@@ -1,5 +1,5 @@
 import { createClient } from "redis";
-import { sendNotificationToUser } from "@/socket/socket";
+import { sendNotificationToUser } from "@/ws/socket";
 import { log } from "@/utils/logger";
 
 // [Job -> Queue -> Worker -> Redis Publish] ===> [Redis Subscriber -> WebSocket Emit]
