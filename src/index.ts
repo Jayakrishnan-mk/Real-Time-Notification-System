@@ -14,6 +14,9 @@ import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 import { notificationQueue } from './queues/notificationQueue';
 import { createBullBoard } from '@bull-board/api';
 import path from 'path';
+import { swaggerSpec } from './utils/swagger';
+import swaggerUi from 'swagger-ui-express';
+import basicAuth from 'express-basic-auth';
 
 dotenv.config();
 
@@ -31,8 +34,15 @@ createBullBoard({
     serverAdapter,
 });
 
-// bull queue dashboard
-app.use('/admin/queues', serverAdapter.getRouter());
+// Protected Bull dashboard with basic auth
+app.use(
+    "/admin/queues",
+    basicAuth({
+        users: { admin: process.env.QUEUE_ADMIN_PASSWORD! },
+        challenge: true,
+    }),
+    serverAdapter.getRouter()
+);
 
 // Initialize socket.io
 initializeSocket(server);
@@ -48,8 +58,10 @@ const port = process.env.PORT || 3000;
 
 // Middleware to parse incoming JSON data
 app.use(express.json());
-
 app.use(morgan('dev'));
+
+// swagger......  http://localhost:3000/api-docs
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Routes
 app.use('/api/users', userRoutes);
@@ -67,4 +79,5 @@ app.use(errorHandler);
 // server
 server.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Swagger docs available at http://localhost:${port}/api-docs`);
 });
