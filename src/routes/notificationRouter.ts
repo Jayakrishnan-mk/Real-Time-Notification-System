@@ -14,6 +14,7 @@ import {
     GetUserNotificationsDTO,
 } from "../dtos/input/notification.input";
 import { authMiddleware } from "@/middleware/authMiddleware";
+import { generalRateLimiter } from "@/middleware/rateLimiter";
 
 const router = express.Router();
 
@@ -34,7 +35,7 @@ const router = express.Router();
  *       200:
  *         description: List of notifications
  */
-router.get("/", getNotifications);
+router.get("/", generalRateLimiter, getNotifications);
 
 router.use(authMiddleware);
 
@@ -70,7 +71,7 @@ router.use(authMiddleware);
  *       200:
  *         description: Notification job queued successfully
  */
-router.post("/", validate(CreateNotificationDTO), sendNotification);
+router.post("/", generalRateLimiter, validate(CreateNotificationDTO), sendNotification);
 
 /**
  * @swagger
@@ -91,7 +92,7 @@ router.post("/", validate(CreateNotificationDTO), sendNotification);
  *       200:
  *         description: User-specific notifications
  */
-router.get("/user", validate(GetUserNotificationsDTO, "query"), getUserNotifications);
+router.get("/user", generalRateLimiter, validate(GetUserNotificationsDTO, "query"), getUserNotifications);
 
 /**
  * @swagger
@@ -105,7 +106,7 @@ router.get("/user", validate(GetUserNotificationsDTO, "query"), getUserNotificat
  *       200:
  *         description: Notifications marked as read
  */
-router.patch("/mark-read", markNotificationReadController);
+router.patch("/mark-read", generalRateLimiter, markNotificationReadController);
 
 /**
  * @swagger
@@ -119,7 +120,7 @@ router.patch("/mark-read", markNotificationReadController);
  *       200:
  *         description: Count of unread notifications
  */
-router.get("/unread-count", unreadCountController);
+router.get("/unread-count", generalRateLimiter, unreadCountController);
 
 /**
  * @swagger
@@ -143,6 +144,6 @@ router.get("/unread-count", unreadCountController);
  *       200:
  *         description: Notification deleted successfully
  */
-router.delete("/", validate(DeleteNotificationDTO), deleteNotificationController);
+router.delete("/", generalRateLimiter, validate(DeleteNotificationDTO), deleteNotificationController);
 
 export default router;
