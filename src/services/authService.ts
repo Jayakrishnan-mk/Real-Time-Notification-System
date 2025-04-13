@@ -82,8 +82,8 @@ export const loginUser = async (email: string, password: string, req: Request) =
                 token: hashedRefreshToken,
                 userId: user.id,
                 expiresAt,
-                ipAddress: req.ip,
-                userAgent: req.get("User-Agent"),
+                ipAddress: req.ip, // 123.45.67.89
+                userAgent: req.get("User-Agent"), // mozilla or chrome or safari....
                 lastUsedAt: new Date(), // Setting the lastUsedAt to the current time
             },
         });
