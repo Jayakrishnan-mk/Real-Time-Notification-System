@@ -8,6 +8,11 @@ const swaggerDefinition = {
         version: '1.0.0',
         description: 'API documentation for the Real-Time Notification System project',
     },
+    tags: [
+        { name: "User", description: "User APIs" },
+        { name: "Auth", description: "Authentication APIs" },
+        { name: "Notifications", description: "Notification APIs" },
+    ],
     servers: [
         {
             url: process.env.SWAGGER_SERVER || 'http://localhost:3000',

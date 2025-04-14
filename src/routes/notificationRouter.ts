@@ -18,6 +18,8 @@ import { generalRateLimiter } from "@/middleware/rateLimiter";
 
 const router = express.Router();
 
+router.use(authMiddleware);
+
 /**
  * @swagger
  * tags:
@@ -31,13 +33,13 @@ const router = express.Router();
  *   get:
  *     summary: Get all notifications (Public)
  *     tags: [Notifications]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: List of notifications
  */
 router.get("/", generalRateLimiter, getNotifications);
-
-router.use(authMiddleware);
 
 /**
  * @swagger
@@ -98,13 +100,26 @@ router.get("/user", generalRateLimiter, validate(GetUserNotificationsDTO, "query
  * @swagger
  * /api/notifications/mark-read:
  *   patch:
- *     summary: Mark all notifications as read
+ *     summary: Mark a specific notification as read
  *     tags: [Notifications]
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               user_id:
+ *                 type: integer
+ *                 example: 4
+ *               notification_id:
+ *                 type: integer
+ *                 example: 6
  *     responses:
  *       200:
- *         description: Notifications marked as read
+ *         description: Notification marked as read
  */
 router.patch("/mark-read", generalRateLimiter, markNotificationReadController);
 
