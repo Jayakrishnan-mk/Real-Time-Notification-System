@@ -2,13 +2,14 @@
 // centralized Redis connection file for both Queue and Worker to use.
 // Central Redis client shared across app
 
+import { REDIS_URL } from '@/config/env';
 import { Redis } from "ioredis";
 
 let connection: Redis;
 
-if (process.env.REDIS_URL) {
+if (REDIS_URL) {
     // Production (e.g., Railway, AWS)
-    connection = new Redis(process.env.REDIS_URL);
+    connection = new Redis(REDIS_URL);
 } else {
     // Development (local Redis via Docker)
     connection = new Redis({

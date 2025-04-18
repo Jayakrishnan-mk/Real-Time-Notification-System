@@ -1,7 +1,9 @@
+import './loadEnv'; // 👈 This ensures env is loaded BEFORE anything else
+
+import path from 'path';
 import 'module-alias/register';
 import express, { Request, Response } from 'express';
 import http from 'http';
-import dotenv from 'dotenv';
 import userRoutes from './routes/userRouter';
 import notificationRoutes from './routes/notificationRouter';
 import authRoutes from "./routes/authRouter";
@@ -13,12 +15,9 @@ import { ExpressAdapter } from '@bull-board/express';
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 import { notificationQueue } from './queues/notificationQueue';
 import { createBullBoard } from '@bull-board/api';
-import path from 'path';
 import { swaggerSpec } from './utils/swagger';
 import swaggerUi from 'swagger-ui-express';
 import basicAuth from 'express-basic-auth';
-
-dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
