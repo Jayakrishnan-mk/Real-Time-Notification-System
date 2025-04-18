@@ -4,11 +4,19 @@
 
 import { Redis } from "ioredis";
 
-const connection = new Redis({
-    host: "127.0.0.1",  // or Redis cloud host
-    port: 6379,
-    maxRetriesPerRequest: null, // ✅ required by BullMQ
-});
+let connection: Redis;
+
+if (process.env.REDIS_URL) {
+    // Production (e.g., Railway, AWS)
+    connection = new Redis(process.env.REDIS_URL);
+} else {
+    // Development (local Redis via Docker)
+    connection = new Redis({
+        host: "127.0.0.1",
+        port: 6379,
+        maxRetriesPerRequest: null, // ✅ required by BullMQ
+    });
+}
 
 connection.on("connect", () => {
     console.log("✅ Connected to Redis");

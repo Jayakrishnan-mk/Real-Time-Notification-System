@@ -31,7 +31,7 @@ router.use(authMiddleware);
  * @swagger
  * /api/notifications:
  *   get:
- *     summary: Get all notifications (Public)
+ *     summary: Get all notifications
  *     tags: [Notifications]
  *     security:
  *       - bearerAuth: []
