@@ -1,3 +1,4 @@
+import { JWT_SECRET } from '@/config/env';
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
@@ -7,7 +8,6 @@ import { Request } from "express";
 
 const prisma = new PrismaClient();
 
-const JWT_SECRET = process.env.JWT_SECRET as string;
 if (!JWT_SECRET) {
     throw new Error("JWT_SECRET is not defined in the environment variables");
 }
@@ -48,7 +48,7 @@ export const loginUser = async (email: string, password: string, req: Request) =
         }
 
         // Generate access token
-        const accessToken = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRES_IN });
+        const accessToken = jwt.sign({ id: user.id }, JWT_SECRET as string, { expiresIn: ACCESS_TOKEN_EXPIRES_IN });
 
         // Generate refresh token
         const rawRefreshToken = crypto.randomBytes(64).toString("hex");
@@ -133,7 +133,7 @@ export const refreshUserToken = async (refreshToken: string, req: Request) => {
         });
 
         // Generate new access & refresh tokens
-        const accessToken = jwt.sign({ id: existingToken.user.id }, JWT_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRES_IN });
+        const accessToken = jwt.sign({ id: existingToken.user.id }, JWT_SECRET as string, { expiresIn: ACCESS_TOKEN_EXPIRES_IN });
 
         const newRawRefreshToken = crypto.randomBytes(64).toString("hex");
         const newHashedRefreshToken = crypto.createHash("sha256").update(newRawRefreshToken).digest("hex");

@@ -1,7 +1,7 @@
+import { JWT_SECRET } from '@/config/env';
 import jwt from "jsonwebtoken";
 import { Socket } from "socket.io";
 
-const JWT_SECRET = process.env.JWT_SECRET as string; // Make sure using the same secret as REST API
 
 export function socketAuthMiddleware(socket: Socket, next: (err?: Error) => void) {
     const token = socket.handshake.auth?.token;
@@ -12,7 +12,14 @@ export function socketAuthMiddleware(socket: Socket, next: (err?: Error) => void
     }
 
     try {
-        const decoded = jwt.verify(token, JWT_SECRET) as { id: number };
+        // Verify token and check expiration
+        const decoded = jwt.verify(token, JWT_SECRET as string) as { id: number, exp: number };
+
+        // Check if the token has expired
+        if (decoded.exp * 1000 < Date.now()) {
+            console.log("[SERVER] ❌ Token expired");
+            return next(new Error("Authentication failed: Token expired"));
+        }
 
         // Save the userId on the socket for later use
         socket.data.userId = decoded.id;

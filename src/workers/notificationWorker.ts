@@ -1,7 +1,12 @@
 import 'module-alias/register';
 
+import dotenv from 'dotenv';
+dotenv.config({
+    path: process.env.NODE_ENV === 'production' ? '.env.production' : '.env.development'
+});
+
 import { Worker } from "bullmq";
-import redisConnection from "@/utils/redisClient";
+import { redisOptions } from '@/utils/redisConnection';
 import { createNotification } from "@/services/notificationService";
 import { NotificationJobData } from "@/types/notificationJob.type";
 import { log, logError } from "@/utils/logger";
@@ -48,7 +53,7 @@ const run = async () => {
             }
         },
         {
-            connection: redisConnection,
+            connection: redisOptions,
         }
     );
 

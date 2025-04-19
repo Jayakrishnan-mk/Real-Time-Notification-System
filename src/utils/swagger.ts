@@ -1,4 +1,4 @@
-// src/swagger.ts
+import { SWAGGER_SERVER } from '@/config/env';
 import swaggerJSDoc from 'swagger-jsdoc';
 
 const swaggerDefinition = {
@@ -15,7 +15,7 @@ const swaggerDefinition = {
     ],
     servers: [
         {
-            url: process.env.SWAGGER_SERVER || 'http://localhost:3000',
+            url: SWAGGER_SERVER || 'http://localhost:3000',
             description: 'Development server',
         },
     ],
