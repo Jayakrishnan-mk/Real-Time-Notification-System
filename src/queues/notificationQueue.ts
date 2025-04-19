@@ -1,5 +1,5 @@
 import { Queue } from "bullmq";
-import { redisOptions } from "@/utils/redisConnection";
+import { redisConnection } from "@/utils/redisConnection";
 import { NotificationJobData } from "@/types/notificationJob.type";
 
 // Queue definition, retry logic, backoff, Redis config
@@ -7,7 +7,7 @@ import { NotificationJobData } from "@/types/notificationJob.type";
 export const notificationQueue = new Queue<NotificationJobData>(
     'notificationQueue',
     {
-        connection: redisOptions,
+        connection: redisConnection,
         // This ensures reliability — if some external service fails briefly, 
         // retries will help without you needing to restart anything.
         defaultJobOptions: {
