@@ -132,15 +132,19 @@ export const getUserNotificationDetails = async (userId: number): Promise<GetUse
             },
         });
 
-        const formatted = notifications.map((item) => ({
-            id: item.notifications?.id!,
-            message: item.notifications?.message!,
-            type: item.notifications?.type!,
-            is_read: item.is_read,
-            read_at: item.read_at,
-            status: item.status!,
-            created_at: item.created_at!,
-        }));
+        
+        const formatted = notifications.map((item: any) => {
+            const notification = item.notifications;
+            return {
+                id: notification?.id ?? 0, // Use fallback value if null
+                message: notification?.message ?? 'No message', // Use fallback value if null
+                type: notification?.type ?? 'push', // Use fallback value if null
+                is_read: item.is_read,
+                read_at: item.read_at,
+                status: item.status!,
+                created_at: item.created_at!,
+            };
+        });
 
         return {
             status: true,
