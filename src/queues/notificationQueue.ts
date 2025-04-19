@@ -1,3 +1,5 @@
+// src/queues/notificationQueue.ts
+
 import { Queue } from "bullmq";
 import { redisConnection } from "@/utils/redisConnection";
 import { NotificationJobData } from "@/types/notificationJob.type";

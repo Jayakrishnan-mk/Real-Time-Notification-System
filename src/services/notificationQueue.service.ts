@@ -1,3 +1,5 @@
+// src/services/notificationQueue.service.ts
+
 import { notificationQueue } from "@/queues/notificationQueue";
 import { NotificationJobData } from "@/types/notificationJob.type";
 

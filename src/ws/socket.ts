@@ -1,3 +1,5 @@
+// src/ws/socket.ts
+
 import { Server as SocketIOServer, Socket } from "socket.io";
 import { Server } from "http";
 import { socketAuthMiddleware } from "@/middleware/socketAuth";
