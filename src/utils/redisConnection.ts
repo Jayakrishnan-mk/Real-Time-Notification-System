@@ -18,6 +18,11 @@ if (REDIS_URL) {
     });
 }
 
+// Add an error handler to monitor connection issues
+redis.on('error', (err) => {
+    console.error('❌ Redis connection error:', err);
+});
+
 redis.ping()
     .then(result => {
         console.log(`✅ Redis connected successfully. PING response: ${result}`);
