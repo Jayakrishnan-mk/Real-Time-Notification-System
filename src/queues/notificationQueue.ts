@@ -7,7 +7,7 @@ import { NotificationJobData } from "@/types/notificationJob.type";
 export const notificationQueue = new Queue<NotificationJobData>(
     'notificationQueue',
     {
-        connection: redisConnection,
+        connection: redisConnection as any,
         // This ensures reliability — if some external service fails briefly, 
         // retries will help without you needing to restart anything.
         defaultJobOptions: {

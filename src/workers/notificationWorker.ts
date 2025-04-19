@@ -53,7 +53,7 @@ const run = async () => {
             }
         },
         {
-            connection: redisConnection,
+            connection: redisConnection as any,
         }
     );
 

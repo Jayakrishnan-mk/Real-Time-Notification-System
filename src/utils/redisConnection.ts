@@ -18,7 +18,6 @@ if (REDIS_URL) {
     });
 }
 
-// 🧪 Optional: one-time test connection
 redis.ping()
     .then(result => {
         console.log(`✅ Redis connected successfully. PING response: ${result}`);
