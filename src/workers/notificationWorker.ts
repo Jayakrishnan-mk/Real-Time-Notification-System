@@ -6,7 +6,7 @@ dotenv.config({
 });
 
 import { Worker } from "bullmq";
-import { redisOptions } from '@/utils/redisConnection';
+import { redisConnection } from '@/utils/redisConnection';
 import { createNotification } from "@/services/notificationService";
 import { NotificationJobData } from "@/types/notificationJob.type";
 import { log, logError } from "@/utils/logger";
@@ -53,9 +53,14 @@ const run = async () => {
             }
         },
         {
-            connection: redisOptions,
+            connection: redisConnection,
         }
     );
+
+    // 🧯 Catch async errors on the worker
+    notificationWorker.on('error', (err) => {
+        logError("❌ Worker error:", err);
+    });
 
     log("👷 Worker initialized and waiting for jobs...");
 };
