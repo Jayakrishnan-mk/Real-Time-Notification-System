@@ -3,5 +3,4 @@ dist/
 .env*
 package-lock.json
 migration_lock.toml
-prisma/schema.prisma
 prisma/migrations/
