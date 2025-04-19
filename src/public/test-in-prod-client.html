@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Socket.IO Test</title>
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body>
+  <script>
+    const socket = io('https://real-time-notification-system-production.up.railway.app', {
+      transports: ['websocket'],
+      auth: {
+        token: '<your-jwt-token>'  // Replace with your jwt token
+      }
+    });
+
+    const userId = 1; // Replace with your test userId
+
+    socket.on('connect', () => {
+      console.log('✅ Connected to Socket.IO server');
+      socket.emit('join', { userId });
+    });
+
+    socket.on('notification', (data) => {
+      console.log('📩 Notification received:', data);
+    });
+
+    socket.on('disconnect', () => {
+      console.log('❌ Disconnected');
+    });
+  </script>
+</body>
+</html>
