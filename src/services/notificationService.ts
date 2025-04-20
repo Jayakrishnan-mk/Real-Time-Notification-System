@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { MarkNotificationAsReadDTO } from "../dtos/input/notification.input";
 import { prisma } from "@/config/db";
 import { BaseStatus } from "../dtos/output/baseStatus.dto";
-import { GetAllNotificationsDTO, GetUserNotificationsOutputDTO } from "../dtos/output/notfication.output";
 
 
 export const softDeleteNotification = async (id: number, userId: number) => {
@@ -101,7 +100,7 @@ export const getUnreadNotificationCount = async (userId: string) => {
     }
 };
 
-export const getAllNotifications = async (req: Request, res: Response): Promise<GetAllNotificationsDTO> => {
+export const getAllNotifications = async (req: Request, res: Response) => {
     try {
         let result = await prisma.notifications.findMany();
         return {
@@ -120,7 +119,7 @@ export const getAllNotifications = async (req: Request, res: Response): Promise<
 };
 
 
-export const getUserNotificationDetails = async (userId: number): Promise<GetUserNotificationsOutputDTO> => {
+export const getUserNotificationDetails = async (userId: number) => {
     try {
         const notifications = await prisma.user_notifications.findMany({
             where: {
