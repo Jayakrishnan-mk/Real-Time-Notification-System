@@ -34,19 +34,19 @@ A production-ready backend system to send real-time push notifications using **N
 
 ## 🖼️ High-Level Architecture
 
-![HLD Diagram](https://github.com/Jayakrishnan-mk/real-time-notification-system/blob/master/src/assets/HLD-1.png)
+![HLD Diagram](./src/assets/HLD-1.png)
 
 ---
 
 ## 🧱 Database Schema
 
-![DB Diagram](https://github.com/Jayakrishnan-mk/real-time-notification-system/blob/master/src/assets/db_diagram-realtime-chatApp.png)
+![DB Diagram](./src/assets/db_diagram-realtime-chatApp.png)
 
 ---
 
 ## 🔐 Token Lifecycle Flow (JWT + Refresh Token)
 
-![Token Flow](https://github.com/Jayakrishnan-mk/real-time-notification-system/blob/master/src/assets/flowchart_diagram_illustrates_the_JSON_Web_Token.png.png)
+![Token Flow](./src/assets/flowchart_diagram_illustrates_the_JSON_Web_Token.png.png)
 
 ---
 
