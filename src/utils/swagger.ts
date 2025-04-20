@@ -32,7 +32,8 @@ const swaggerDefinition = {
 
 const options = {
     swaggerDefinition,
-    apis: ['./src/routes/*.ts'], // Swagger to scan router files
+    apis: ['./dist/routes/*.js'],
+    // apis: ['./src/routes/*.ts'], // Swagger to scan router files
 };
 
 export const swaggerSpec = swaggerJSDoc(options);
