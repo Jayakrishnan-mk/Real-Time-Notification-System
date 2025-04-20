@@ -12,7 +12,7 @@ A production-ready backend system to send real-time push notifications using **N
 - **Socket.IO** for real-time communication
 - **Redis** for Pub/Sub
 - **BullMQ** for job queues
-- **PostgreSQL** with Prisma ORM
+- **MySQL** with Prisma ORM
 - **Swagger** for API docs
 - **JWT** with Refresh Token Rotation
 - **Docker** for containerization
