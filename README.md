@@ -39,22 +39,22 @@ A production-ready backend system to send real-time push notifications using **N
 - node_modules
 - prisma
 - src
--      assets
--      config
--      controllers
--      dtos
--      middleware
--      public
--      queues
--      routes
--      scripts
--      services
--      types
--      utils
--      workers
--      ws
--      index.ts
--      loadEnv.ts
+- ->      assets
+- ->      config
+- ->      controllers
+- ->      dtos
+- ->      middleware
+- ->      public
+- ->      queues
+- ->      routes
+- ->      scripts
+- ->      services
+- ->      types
+- ->      utils
+- ->      workers
+- ->      ws
+- ->      index.ts
+- ->      loadEnv.ts
 - .dockerignore
 - .env
 - .env.development
