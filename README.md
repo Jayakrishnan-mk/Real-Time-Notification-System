@@ -119,6 +119,35 @@ npm run dev
 
 ---
 
+## 🐳 Running with Docker (Production Build)
+
+Build and run using Docker:
+
+```bash
+# 1. Build Docker image
+docker build -t realtime-notify .
+
+# 2. Run container
+docker run -d -p 3000:3000 --env-file .env.production realtime-notify
+Or if you're using Docker Compose:
+
+bash
+Copy
+Edit
+docker-compose up --build
+Make sure your .env.production is properly set up with:
+
+DATABASE_URL
+
+REDIS_URL
+
+JWT_SECRET
+
+other required variables...
+```
+
+---
+
 ## 🧪 Testing the Notification Flow
 
 ```bash
@@ -133,10 +162,7 @@ npm run dev
 ## 🌐 Deployment
 
 Deployed on:
-- Railway (Dev)
-- AWS EC2 (Production-ready setup with PM2 + Nginx)
-
-[Live Demo Link - AWS] (to be added after deployment)
+- Railway (Production)
 
 ---
 
