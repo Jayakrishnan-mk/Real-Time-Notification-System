@@ -32,6 +32,42 @@ A production-ready backend system to send real-time push notifications using **N
 
 ---
 
+
+## 📂 Project structure
+
+- dist
+- node_modules
+- prisma
+- src
+-      assets
+-      config
+-      controllers
+-      dtos
+-      middleware
+-      public
+-      queues
+-      routes
+-      scripts
+-      services
+-      types
+-      utils
+-      workers
+-      ws
+-      index.ts
+-      loadEnv.ts
+- .dockerignore
+- .env
+- .env.development
+- .env.production
+- .gitignore
+- Dockerfile
+- package-lock.json
+- package.json
+- readme.md
+- tsconfig.json
+
+---
+
 ## 🖼️ High-Level Architecture
 
 ![HLD Diagram](./src/assets/HLD-1.png)
