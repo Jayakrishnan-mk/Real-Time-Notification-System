@@ -70,7 +70,13 @@ A production-ready backend system to send real-time push notifications using **N
 
 ## 🖼️ High-Level Architecture
 
-![HLD Diagram](./src/assets/HLD-1.png)
+![HLD Diagram](./src/assets/HLD-noti.png)
+
+---
+
+## 🖼️ HLD - 2
+
+![HLD Diagram](./src/assets/HLD-2-notification-system.png)
 
 ---
 
