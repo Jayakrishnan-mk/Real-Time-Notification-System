@@ -100,6 +100,20 @@ Swagger UI available at:
 https://real-time-notification-system-production.up.railway.app/api-docs/
 ```
 
+![Swagger](./src/assets/openApi-SWAGGER.png)
+
+---
+
+## 🔐 Bull Dashboard (For analyzing message queue)
+
+Dashboard available at:
+
+```
+https://real-time-notification-system-production.up.railway.app/admin/queues/
+```
+
+![Queue](./src/assets/bullMQ-Dashboard.png)
+
 ---
 
 ## 🚀 Local Development Setup
