@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllUsers } from '../controllers/userController';
+import { getAllUsers } from '../controllers/user.controller';
 import { authMiddleware } from "@/middleware/authMiddleware";
 import { generalRateLimiter } from "@/middleware/rateLimiter";
 

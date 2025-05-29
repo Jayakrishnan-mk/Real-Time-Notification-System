@@ -7,12 +7,12 @@ import {
     markNotificationReadController,
     sendNotification,
     unreadCountController,
-} from "../controllers/notificationController";
+} from "../controllers/notification.controller";
 import {
     CreateNotificationDTO,
     DeleteNotificationDTO,
     GetUserNotificationsDTO,
-} from "../dtos/input/notification.input";
+} from "../dtos/input/notification.dto";
 import { authMiddleware } from "@/middleware/authMiddleware";
 import { generalRateLimiter } from "@/middleware/rateLimiter";
 

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { MarkNotificationAsReadDTO } from "../dtos/input/notification.input";
+import { MarkNotificationAsReadDTO } from "../dtos/input/notification.dto";
 import { prisma } from "@/config/db";
 import { BaseStatus } from "../dtos/output/baseStatus.dto";
 

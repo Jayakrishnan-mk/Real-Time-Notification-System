@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { getAllNotifications, markNotificationAsRead, getUserNotificationDetails, getUnreadNotificationCount, softDeleteNotification } from "../services/notificationService";
-import { GetUserNotificationsDTO, MarkNotificationAsReadDTO } from "../dtos/input/notification.input";
+import { GetUserNotificationsDTO, MarkNotificationAsReadDTO } from "../dtos/input/notification.dto";
 import { addNotificationJob } from "@/services/notificationQueue.service";
 import { prisma } from "@/config/db";
 import { JwtPayload } from "jsonwebtoken";

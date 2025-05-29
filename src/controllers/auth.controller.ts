@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { signupUser, loginUser, logoutUser } from "../services/authService";
-import { refreshUserToken } from "../services/authService";
+import { signupUser, loginUser, logoutUser } from "../services/auth.service";
+import { refreshUserToken } from "../services/auth.service";
 
 
 export const logout = async (req: Request, res: Response) => {

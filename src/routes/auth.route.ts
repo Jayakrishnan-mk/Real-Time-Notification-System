@@ -1,9 +1,9 @@
 import express from "express";
-import { signup, login, logout } from "../controllers/authController";
+import { signup, login, logout } from "../controllers/auth.controller";
 import { validate } from "../middleware/validate";
-import { LoginDTO, SignupDTO } from "../dtos/input/auth.input";
+import { LoginDTO, SignupDTO } from "../dtos/input/auth.dto";
 import { authRateLimiter } from "@/middleware/rateLimiter";
-import { refreshToken } from "../controllers/authController";
+import { refreshToken } from "../controllers/auth.controller";
 
 const router = express.Router();
 
