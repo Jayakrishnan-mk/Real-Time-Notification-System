@@ -37,6 +37,13 @@ export const initializeSocket = (server: Server): SocketIOServer => {
         socket.join(`user-${uid}`);
         console.log(`🧑‍💻 Socket ${socket.id} registered for user ${uid}`);
 
+        socket.on("send_notification", (data) => {
+            console.log("📩 Received notification:", data);
+
+            // Optionally, emit back to the same socket or room for confirmation
+            socket.emit("notification_ack", { status: "received", original: data });
+        });
+
         socket.on("disconnect", () => {
             userSocketMap.get(uid)?.delete(socket.id);
             if (userSocketMap.get(uid)?.size === 0) {
