@@ -1,5 +1,5 @@
 
-# 🔔 Real-Time Notification System
+# 🔔 Real-Time Notification System.
 
 A production-ready backend system to send real-time push notifications using **Node.js**, **Socket.IO**, **Redis**, **BullMQ**, and **PostgreSQL**. It supports JWT-based authentication, device-wise refresh token management, and secure token rotation.
 
