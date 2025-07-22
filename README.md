@@ -5,7 +5,7 @@ A production-ready backend system to send real-time push notifications using **N
 
 ---
 
-## 📦 Tech Stack
+## 📦 Tech Stack-
 
 - **Node.js** (Express)
 - **TypeScript**
